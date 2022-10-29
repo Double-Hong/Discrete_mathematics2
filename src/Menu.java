@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Menu {
     ArrayList<mySet> s = new ArrayList<>();
     Scanner in = new Scanner(System.in);
+    ArrayList<algebraicSystem> ass = new ArrayList<>();
 
     public void showMenu() {
         while (true) {
@@ -23,13 +24,31 @@ public class Menu {
                     break;
                 }
                 case "3":{
-
+                    System.out.println("请输入集合名称: ");
+                    String name = in.nextLine();
+                    if (findSetByName(name)!=null){
+                        algebraicSystem as = new algebraicSystem(findSetByName(name));
+                        ass.add(as);
+                        as.inputTheRelation();
+                        as.showRelation();
+                    }
+                    else {
+                        System.out.println("没有集合"+name);
+                    }
                     break;
                 }
             }
         }
     }
 
+    public mySet findSetByName(String name) {
+        for (int i = 0; i < s.size(); i++) {
+            if (Objects.equals(s.get(i).name, name)) {
+                return s.get(i);
+            }
+        }
+        return null;
+    }
     public void showAllSet() {
         if (s.size() == 0) {
             System.out.println("当前没有集合");
