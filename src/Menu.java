@@ -1,18 +1,25 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Menu {
     ArrayList<mySet> s = new ArrayList<>();
-    Scanner in = new Scanner(System.in);
+
     ArrayList<algebraicSystem> ass = new ArrayList<>();
 
     public void showMenu() {
         while (true) {
+            Scanner in = new Scanner(System.in);
             System.out.println("1----创建集合");
             System.out.println("2----显示集合");
             System.out.println("3----构建代数系统");
-            String select = in.nextLine();
+            System.out.println("4----显示系统代数");
+            System.out.println("5----判断代数系统");
+            System.out.println("0----退出");
+            String select = in.next();
             switch (select) {
                 case "1": {
                     mySet newSet = new mySet();
@@ -23,21 +30,84 @@ public class Menu {
                     showAllSet();
                     break;
                 }
-                case "3":{
+                case "3": {
                     System.out.println("请输入集合名称: ");
-                    String name = in.nextLine();
-                    if (findSetByName(name)!=null){
-                        algebraicSystem as = new algebraicSystem(findSetByName(name));
+                    String name = in.next();
+                    if (findSetByName(name) != null) {
+                        int id = ass.size() + 1;
+                        algebraicSystem as = new algebraicSystem(findSetByName(name), id);
                         ass.add(as);
                         as.inputTheRelation();
-                        as.showRelation();
-                    }
-                    else {
-                        System.out.println("没有集合"+name);
+                    } else {
+                        System.out.println("没有集合" + name);
                     }
                     break;
                 }
+                case "4": {
+                    if (ass.size() == 0) {
+                        System.out.println("当前没有代数系统");
+                    } else {
+                        for (int i = 0; i < ass.size(); i++) {
+                            ass.get(i).showRelation();
+                        }
+                    }
+                    break;
+                }
+                case "5": {
+                    showAlgebraicSystem();
+                    System.out.println("请输入代数系统id: ");
+                    int id = in.nextInt();
+                    if (findSystemById(id) != null) {
+                        algebraicSystem as = findSystemById(id);
+                        System.out.println("OK");
+                    } else {
+                        System.out.println("没有代数系统" + id);
+                    }
+                    break;
+                }
+                case "0": {
+                    return;
+                }
+                default: {
+                    System.out.println("请重新输入 !");
+                    break;
+                }
             }
+            try {
+                System.out.println("---------");
+                System.out.println();
+                System.out.println("按回车继续");
+                System.out.println();
+                new BufferedReader(new InputStreamReader(System.in)).readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    //通过代数系统id找代数系统
+    public algebraicSystem findSystemById(int id) {
+        algebraicSystem as = new algebraicSystem();
+        boolean flag = false;
+        for (int i = 0; i < ass.size(); i++) {
+            if (ass.get(i).id == id) {
+                as = ass.get(i);
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            return as;
+        } else {
+            return null;
+        }
+    }
+
+    //简要展示所有代数系统
+    public void showAlgebraicSystem() {
+        for (int i = 0; i < ass.size(); i++) {
+            System.out.println("代数系统" + ass.get(i).id);
+            ass.get(i).set.outTheSet();
         }
     }
 
@@ -49,6 +119,7 @@ public class Menu {
         }
         return null;
     }
+
     public void showAllSet() {
         if (s.size() == 0) {
             System.out.println("当前没有集合");
@@ -59,6 +130,7 @@ public class Menu {
             }
         }
     }
+
     public void checkSameName(mySet newSet) {
         boolean flag = true;
         for (int i = 0; i < s.size(); i++) {
