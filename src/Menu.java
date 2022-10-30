@@ -59,7 +59,12 @@ public class Menu {
                     int id = in.nextInt();
                     if (findSystemById(id) != null) {
                         algebraicSystem as = findSystemById(id);
-                        System.out.println("OK");
+                        if (judgeSystem(as)){
+                            System.out.println("代数系统"+as.id+"是群");
+                        }
+                        else {
+                            System.out.println("代数系统"+as.id+"不是群");
+                        }
                     } else {
                         System.out.println("没有代数系统" + id);
                     }
@@ -82,6 +87,53 @@ public class Menu {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    //判断封闭性
+    boolean judgeClosed(algebraicSystem as) {
+        int time;int wrong =0;
+        for (int i = 0;i<as.results.size();i++){
+            time=0;
+            for (int j=0;j<as.set.set.size();j++){
+                if (Objects.equals(as.results.get(i),as.set.set.get(j).value)){
+                    time++;
+                    break;
+                }
+            }
+            if (time==0){
+                wrong=1;
+            }
+        }
+        if (wrong==0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //判断结合性
+    boolean judgeAssociative(algebraicSystem as) {
+
+        return false;
+    }
+
+    //判断系统是否为群
+    boolean judgeSystem(algebraicSystem as) {
+        int flag=0;
+        if (judgeClosed(as)){
+            flag++;
+            System.out.println("代数系统"+as.id+"是封闭的");
+        }
+        else {
+            System.out.println("代数系统"+as.id+"不是封闭的");
+        }
+        if (flag==4){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
