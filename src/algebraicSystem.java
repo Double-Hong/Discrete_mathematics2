@@ -7,11 +7,12 @@ public class algebraicSystem {
     ArrayList<String> results = new ArrayList<>();
     Scanner in = new Scanner(System.in);
 
-    public algebraicSystem(mySet set,int id) {
+    public algebraicSystem(mySet set, int id) {
         this.set = set;
-        this.id=id;
+        this.id = id;
     }
-    public algebraicSystem(){
+
+    public algebraicSystem() {
 
     }
 
@@ -29,7 +30,7 @@ public class algebraicSystem {
     public void showRelation() {
         int n = 0;
         set.outTheSet();
-        System.out.println("集合"+set.name+"上的二元关系: ");
+        System.out.println("集合" + set.name + "上的二元关系: ");
         for (int i = 0; i < set.set.size(); i++) {
             for (int j = 0; j < set.set.size(); j++) {
                 System.out.print(set.set.get(i).value + "\t*\t" + set.set.get(j).value + "\t=\t" + results.get(n) + "\t\t");

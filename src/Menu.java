@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,11 +60,10 @@ public class Menu {
                     int id = in.nextInt();
                     if (findSystemById(id) != null) {
                         algebraicSystem as = findSystemById(id);
-                        if (judgeSystem(as)){
-                            System.out.println("代数系统"+as.id+"是群");
-                        }
-                        else {
-                            System.out.println("代数系统"+as.id+"不是群");
+                        if (judgeSystem(as)) {
+                            System.out.println("代数系统" + as.id + "是群");
+                        } else {
+                            System.out.println("代数系统" + as.id + "不是群");
                         }
                     } else {
                         System.out.println("没有代数系统" + id);
@@ -92,47 +92,66 @@ public class Menu {
 
     //判断封闭性
     boolean judgeClosed(algebraicSystem as) {
-        int time;int wrong =0;
-        for (int i = 0;i<as.results.size();i++){
-            time=0;
-            for (int j=0;j<as.set.set.size();j++){
-                if (Objects.equals(as.results.get(i),as.set.set.get(j).value)){
+        int time;
+        int wrong = 0;
+        for (int i = 0; i < as.results.size(); i++) {
+            time = 0;
+            for (int j = 0; j < as.set.set.size(); j++) {
+                if (Objects.equals(as.results.get(i), as.set.set.get(j).value)) {
                     time++;
                     break;
                 }
             }
-            if (time==0){
-                wrong=1;
+            if (time == 0) {
+                wrong = 1;
             }
         }
-        if (wrong==0){
+        if (wrong == 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
+    /**
+     * 计算两个元素结果
+     *
+     * @param a  第一个元素
+     * @param b  第二个元素
+     * @param as 代数系统
+     * @return results里面的值
+     */
+    String culAandB(int a, int b, algebraicSystem as) {
+        return as.results.get(a + b * as.set.set.size());
+    }
+
     //判断结合性
     boolean judgeAssociative(algebraicSystem as) {
-
+        for (int i = 0; i < ass.size(); i++) {
+            for (int j = 0; j < ass.size(); j++) {
+                for (int k = 0; k < ass.size(); k++) {
+                }
+            }
+        }
+        System.out.println(culAandB(1, 1, as));
         return false;
     }
 
     //判断系统是否为群
     boolean judgeSystem(algebraicSystem as) {
-        int flag=0;
-        if (judgeClosed(as)){
+        int flag = 0;
+        if (judgeClosed(as)) {
             flag++;
-            System.out.println("代数系统"+as.id+"是封闭的");
+            System.out.println("代数系统" + as.id + "是封闭的");
+        } else {
+            System.out.println("代数系统" + as.id + "不是封闭的");
         }
-        else {
-            System.out.println("代数系统"+as.id+"不是封闭的");
+        if (judgeAssociative(as)) {
+            flag++;
         }
-        if (flag==4){
+        if (flag == 4) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
