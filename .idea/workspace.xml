@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eb46ecd2-b826-4dbb-af7e-4b0980457ea6" name="变更" comment="Hong">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/algebraicSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algebraicSystem.java" afterDir="false" />
-    </list>
+    <list default="true" id="eb46ecd2-b826-4dbb-af7e-4b0980457ea6" name="变更" comment="Hong" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +67,7 @@
       <workItem from="1667138419829" duration="550000" />
       <workItem from="1667139238990" duration="2091000" />
       <workItem from="1667215046697" duration="7126000" />
-      <workItem from="1667289353487" duration="4418000" />
+      <workItem from="1667289353487" duration="4771000" />
     </task>
     <task id="LOCAL-00001" summary="Hong">
       <created>1666941604689</created>
@@ -115,7 +111,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667215475868</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Hong">
+      <created>1667294015196</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1667294015196</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,7 +135,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>
