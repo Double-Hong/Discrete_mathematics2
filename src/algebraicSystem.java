@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class algebraicSystem {
     int id;
     mySet set;
+    String IE;
     ArrayList<String> results = new ArrayList<>();
     Scanner in = new Scanner(System.in);
 

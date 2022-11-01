@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Menu {
     ArrayList<mySet> s = new ArrayList<>();
-
+    ArrayList<String> Wrongs = new ArrayList<>();
     ArrayList<algebraicSystem> ass = new ArrayList<>();
 
     public void showMenu() {
@@ -32,6 +32,7 @@ public class Menu {
                     break;
                 }
                 case "3": {
+                    showAllSet();
                     System.out.println("请输入集合名称: ");
                     String name = in.next();
                     if (findSetByName(name) != null) {
@@ -116,25 +117,109 @@ public class Menu {
     /**
      * 计算两个元素结果
      *
-     * @param a  第一个元素
-     * @param b  第二个元素
+     * @param a  第一个元素的序号
+     * @param b  第二个元素的序号
      * @param as 代数系统
      * @return results里面的值
      */
     String culAandB(int a, int b, algebraicSystem as) {
-        return as.results.get(a + b * as.set.set.size());
+        return as.results.get(a * as.set.set.size() + b);
+    }
+
+    /**
+     * 通过值来找序号
+     *
+     * @param value 元素的值
+     * @param as    代数系统
+     * @return 元素的序号
+     */
+    int findNumByValue(String value, algebraicSystem as) {
+        for (int i = 0; i < as.set.set.size(); i++) {
+            if (Objects.equals(as.set.set.get(i).value, value)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 判断代数系统是否有幺元
+     *
+     * @param as 代数系统
+     * @return 是否有幺元
+     */
+    boolean judgeIdentityElement(algebraicSystem as) {
+        int times = 0;
+        boolean flag = false;
+        for (int i = 0; i < as.set.set.size(); i++) {
+            for (int j = 0; j < as.set.set.size(); j++) {
+                if (Objects.equals(culAandB(i, j, as), as.set.set.get(j).value) &&
+                        Objects.equals(culAandB(j, i, as), as.set.set.get(j).value)) {
+                    times++;
+                }
+            }
+            if (times == as.set.set.size()) {
+//                System.out.println("幺元是" + as.set.set.get(i).value);
+                as.IE = as.set.set.get(i).value;
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * 判断是否有逆元
+     *
+     * @param as 代数系统
+     * @return 是否有逆元
+     */
+    boolean judgeInverseElement(algebraicSystem as) {
+        boolean flag = false;
+        int times = 0;
+        if (!judgeIdentityElement(as)) {
+            flag = false;
+        } else {
+            for (int i = 0; i < as.set.set.size(); i++) {
+                for (int j = 0; j < as.set.set.size(); j++) {
+                    if (Objects.equals(culAandB(i, j, as), as.IE) &&
+                            Objects.equals(culAandB(j, i, as), as.IE)) {
+                        times++;
+                        break;
+                    }
+                }
+            }
+            if (times == as.set.set.size()) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 
     //判断结合性
     boolean judgeAssociative(algebraicSystem as) {
-        for (int i = 0; i < ass.size(); i++) {
-            for (int j = 0; j < ass.size(); j++) {
-                for (int k = 0; k < ass.size(); k++) {
+        boolean flag = true;
+        int n = 0;
+        for (int i = 0; i < as.set.set.size(); i++) {
+            for (int j = 0; j < as.set.set.size(); j++) {
+                for (int k = 0; k < as.set.set.size(); k++) {
+                    n++;
+                    int a = findNumByValue(culAandB(i, j, as), as);
+                    int b = findNumByValue(culAandB(j, k, as), as);
+                    if (a != -1 && b != -1) {
+                        if (!Objects.equals(culAandB(a, k, as), culAandB(i, b, as))) {
+                            flag = false;
+                            String s = as.set.set.get(i).value + "*" + as.set.set.get(j).value + "*" + as.set.set.get(k).value;
+                            Wrongs.add(s);
+                        }
+                    } else {
+                        return false;
+                    }
                 }
             }
         }
-        System.out.println(culAandB(1, 1, as));
-        return false;
+
+        return flag;
     }
 
     //判断系统是否为群
@@ -148,6 +233,28 @@ public class Menu {
         }
         if (judgeAssociative(as)) {
             flag++;
+            System.out.println("代数系统" + as.id + "具有结合性");
+        } else {
+            System.out.println("代数系统" + as.id + "不具有结合性");
+            for (int i = 0; i < Wrongs.size(); i++) {
+                System.out.print(Wrongs.get(i) + "   ");
+                if ((i + 1) % 3 == 0) {
+                    System.out.println();
+                }
+            }
+            System.out.println();
+        }
+        if (judgeIdentityElement(as)) {
+            flag++;
+            System.out.println("代数系统" + as.id + "含有幺元");
+        } else {
+            System.out.println("代数系统" + as.id + "不含有幺元");
+        }
+        if (judgeInverseElement(as)) {
+            flag++;
+            System.out.println("代数系统" + as.id + "含有逆元");
+        } else {
+            System.out.println("代数系统" + as.id + "不含有逆元");
         }
         if (flag == 4) {
             return true;
