@@ -19,6 +19,7 @@ public class Menu {
             System.out.println("3----构建代数系统");
             System.out.println("4----显示系统代数");
             System.out.println("5----判断代数系统");
+            System.out.println("6----显示特殊元");
             System.out.println("0----退出");
             String select = in.next();
             switch (select) {
@@ -68,6 +69,20 @@ public class Menu {
                         }
                     } else {
                         System.out.println("没有代数系统" + id);
+                    }
+                    break;
+                }
+                case "6":{
+                    showAlgebraicSystem();
+                    System.out.println("请输入代数系统id: ");
+                    int id = in.nextInt();
+                    if (findSystemById(id)!=null){
+                        algebraicSystem as =findSystemById(id);
+                        System.out.println("代数系统"+id+"的幺元是"+as.IE);
+                        System.out.println("代数系统"+id+"的零元是");
+                        for (int i= 0;i<as.set.set.size();i++){
+                            System.out.println(as.set.set.get(i).value+"的逆元是"+as.inverseE.get(i));
+                        }
                     }
                     break;
                 }
@@ -177,6 +192,7 @@ public class Menu {
     boolean judgeInverseElement(algebraicSystem as) {
         boolean flag = false;
         int times = 0;
+        as.inverseE.clear();
         if (!judgeIdentityElement(as)) {
             flag = false;
         } else {
@@ -185,6 +201,7 @@ public class Menu {
                     if (Objects.equals(culAandB(i, j, as), as.IE) &&
                             Objects.equals(culAandB(j, i, as), as.IE)) {
                         times++;
+                        as.inverseE.add(as.set.set.get(j).value);
                         break;
                     }
                 }
@@ -252,9 +269,9 @@ public class Menu {
         }
         if (judgeInverseElement(as)) {
             flag++;
-            System.out.println("代数系统" + as.id + "含有逆元");
+            System.out.println("代数系统" + as.id + "的每个元素都有逆元");
         } else {
-            System.out.println("代数系统" + as.id + "不含有逆元");
+            System.out.println("代数系统" + as.id + "的元素不都含有逆元");
         }
         if (flag == 4) {
             return true;

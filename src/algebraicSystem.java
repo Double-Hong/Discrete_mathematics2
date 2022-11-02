@@ -4,7 +4,9 @@ import java.util.Scanner;
 public class algebraicSystem {
     int id;
     mySet set;
-    String IE;
+    String IE="";//幺元
+    String ZE="";//零元
+    ArrayList<String> inverseE = new ArrayList<>();//逆元
     ArrayList<String> results = new ArrayList<>();
     Scanner in = new Scanner(System.in);
 
