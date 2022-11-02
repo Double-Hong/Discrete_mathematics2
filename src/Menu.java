@@ -20,6 +20,7 @@ public class Menu {
             System.out.println("4----显示系统代数");
             System.out.println("5----判断代数系统");
             System.out.println("6----显示特殊元");
+            System.out.println("7----判断代数系统类型");
             System.out.println("0----退出");
             String select = in.next();
             switch (select) {
@@ -72,18 +73,18 @@ public class Menu {
                     }
                     break;
                 }
-                case "6":{
+                case "6": {
                     showAlgebraicSystem();
                     System.out.println("请输入代数系统id: ");
                     int id = in.nextInt();
-                    if (findSystemById(id)!=null){
-                        algebraicSystem as =findSystemById(id);
-                        System.out.println("代数系统"+id+"的幺元是"+as.IE);
-                        System.out.println("代数系统"+id+"的零元是");
-                        for (int i= 0;i<as.set.set.size();i++){
-                            System.out.println(as.set.set.get(i).value+"的逆元是"+as.inverseE.get(i));
-                        }
+                    if (findSystemById(id) != null) {
+                        algebraicSystem as = findSystemById(id);
+                        showSpecialElement(as);
                     }
+                    break;
+                }
+                case "7": {
+
                     break;
                 }
                 case "0": {
@@ -102,6 +103,37 @@ public class Menu {
                 new BufferedReader(new InputStreamReader(System.in)).readLine();
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * 判断代数系统类型
+     * @param as 代数系统
+     */
+    void judgeSystemType(algebraicSystem as){
+
+    }
+    /**
+     * 输出特殊元
+     *
+     * @param as 代数系统
+     */
+    void showSpecialElement(algebraicSystem as) {
+        if (judgeIdentityElement(as)) {
+            System.out.println("代数系统" + as.id + "的幺元是" + as.IE);
+        } else {
+            System.out.println("代数系统" + as.id + "没有幺元");
+        }
+        if (judgeZeroElement(as)) {
+            System.out.println("代数系统" + as.id + "的零元是" + as.ZE);
+        } else {
+            System.out.println("代数系统" + as.id + "没有零元");
+        }
+        if (judgeInverseElement(as)) {
+            System.out.println("代数系统" + as.id + "的逆元: ");
+            for (int i = 0; i < as.set.set.size(); i++) {
+                System.out.println(as.set.set.get(i).value + "的逆元是" + as.inverseE.get(i));
             }
         }
     }
@@ -158,6 +190,32 @@ public class Menu {
     }
 
     /**
+     * 判断代数系统是否有零元
+     *
+     * @param as 代数系统
+     * @return 是否有零元
+     */
+    boolean judgeZeroElement(algebraicSystem as) {
+        boolean flag = false;
+        int times = 0;
+        for (int i = 0; i < as.set.set.size(); i++) {
+            for (int j = 0; j < as.set.set.size(); j++) {
+                if (Objects.equals(culAandB(i, j, as), as.set.set.get(i).value) &&
+                        Objects.equals(culAandB(j, i, as), as.set.set.get(i).value)) {
+                    times++;
+                }
+            }
+            if (times == as.set.set.size()) {
+                as.ZE = as.set.set.get(i).value;
+                flag = true;
+                break;
+            }
+            times = 0;
+        }
+        return flag;
+    }
+
+    /**
      * 判断代数系统是否有幺元
      *
      * @param as 代数系统
@@ -179,12 +237,13 @@ public class Menu {
                 flag = true;
                 break;
             }
+            times = 0;
         }
         return flag;
     }
 
     /**
-     * 判断是否有逆元
+     * 判断代数系统中的每个元素是否有逆元
      *
      * @param as 代数系统
      * @return 是否有逆元
