@@ -84,7 +84,13 @@ public class Menu {
                     break;
                 }
                 case "7": {
-
+                    showAlgebraicSystem();
+                    System.out.println("请输入代数系统id: ");
+                    int id = in.nextInt();
+                    if (findSystemById(id) != null) {
+                        algebraicSystem as = findSystemById(id);
+                        judgeSystemType(as);
+                    }
                     break;
                 }
                 case "0": {
@@ -112,7 +118,41 @@ public class Menu {
      * @param as 代数系统
      */
     void judgeSystemType(algebraicSystem as){
-
+        int flag = 0;
+        if (judgeClosed(as)){
+            flag++;
+        }
+        if (judgeAssociative(as)){
+            flag++;
+        }
+        if (judgeIdentityElement(as)&&judgeAssociative(as)){
+            flag++;
+        }
+        if (judgeInverseElement(as)){
+            flag++;
+        }
+        switch (flag){
+            case 0:{
+                System.out.println("代数系统"+as.id+"只是代数系统");
+                break;
+            }
+            case 1:{
+                System.out.println("代数系统"+as.id+"是广群");
+                break;
+            }
+            case 2:{
+                System.out.println("代数系统"+as.id+"是半群");
+                break;
+            }
+            case 3:{
+                System.out.println("代数系统"+as.id+"是独异点");
+                break;
+            }
+            case 4:{
+                System.out.println("代数系统"+as.id+"是群");
+                break;
+            }
+        }
     }
     /**
      * 输出特殊元
